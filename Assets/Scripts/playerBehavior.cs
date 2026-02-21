@@ -1,53 +1,41 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class playerBehavior : MonoBehaviour
 {
-    public float speed;
-    public float min; 
-    public float max;
-    public int move;
+    public float speed = 5f;
+    private Rigidbody2D rb;
+    private Animator anim; // Reference to the Animator
 
-    public Rigidbody2D rb;
-
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            Debug.LogError("No Rigidbody2D found on " + gameObject.name);
-        }
-        
+        anim = GetComponent<Animator>(); // Make sure the Animator is on the same GameObject
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float offset = 0.0f;
-        bool left = (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed) && move != 1;
-        if(left == true){
-        offset = -speed;
+        float moveInput = 0f;
+
+        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+            moveInput = -speed;
+
+        if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+            moveInput = speed;
+
+        rb.velocity = new Vector2(moveInput, rb.velocity.y);
+
+        // Tell Animator whether we are walking
+        if (anim != null)
+        {
+            bool isWalking = Mathf.Abs(moveInput) > 0;
+            anim.SetBool("isWalking", isWalking);
+
+            // Flip sprite depending on direction
+            if (moveInput > 0)
+                transform.localScale = new Vector3(1, 1, 1);
+            else if (moveInput < 0)
+                transform.localScale = new Vector3(-1, 1, 1);
         }
-
-        if(Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed){
-        offset = speed;
-        }
-
-        Vector3 newPos = transform.position;
-        newPos.x = newPos.x + offset;
-
-         //float startTime = 0.0f;
-        if(transform.position.x > max){
-            //startTime  = Time.time;
-            newPos.x = max;
-        }
-        transform.position = newPos;
-
-
-        if(transform.position.x < min){
-            newPos.x = min;
-        }
-        transform.position = newPos;
     }
 }
