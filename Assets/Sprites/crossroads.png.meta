@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 623866c8ad3ea4d61a0b343048755800
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1267662897243830254
+    second: crossroads_0
+  - first:
+      213: 8067921993137483952
+    second: crossroads_1
+  - first:
+      213: 510925455020719084
+    second: crossroads_2
+  - first:
+      213: -3126834818776427041
+    second: crossroads_3
+  - first:
+      213: 3591333533065969811
+    second: crossroads_4
+  - first:
+      213: 77968348094839269
+    second: crossroads_5
+  - first:
+      213: -5206837075786622014
+    second: crossroads_6
+  - first:
+      213: 113905354712052758
+    second: crossroads_7
+  - first:
+      213: 8391904822573276621
+    second: crossroads_8
+  - first:
+      213: -8713248191212458146
+    second: crossroads_9
+  - first:
+      213: -8287747095231893537
+    second: crossroads_10
+  - first:
+      213: -1351960889636039650
+    second: crossroads_11
+  - first:
+      213: -951088020144477801
+    second: crossroads_12
+  - first:
+      213: -5348523156145116889
+    second: crossroads_13
+  - first:
+      213: 5692327823423824841
+    second: crossroads_14
+  - first:
+      213: -3918174554183700008
+    second: crossroads_15
+  - first:
+      213: 7292520928526573835
+    second: crossroads_16
+  - first:
+      213: -5252013965166171537
+    second: crossroads_17
+  - first:
+      213: 2593132731395393
+    second: crossroads_18
+  - first:
+      213: -3289174238751710124
+    second: crossroads_19
+  - first:
+      213: -2114643704274519345
+    second: crossroads_20
+  - first:
+      213: -2976933346127743685
+    second: crossroads_21
+  - first:
+      213: 1957397098017787191
+    second: crossroads_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: crossroads_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 1255
+        height: 757
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 218c6d2bf4b586ee0800000000000000
+      internalID: -1267662897243830254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 265
+        width: 133
+        height: 141
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b0758c9e4407ff60800000000000000
+      internalID: 8067921993137483952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_2
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 265
+        width: 120
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cebf63d8efb271700800000000000000
+      internalID: 510925455020719084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_3
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 120
+        width: 318
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd5128b8c404b94d0800000000000000
+      internalID: -3126834818776427041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_4
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 265
+        width: 126
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 390885412daf6d130800000000000000
+      internalID: 3591333533065969811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_5
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 424
+        width: 43
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e9baebaccff41100800000000000000
+      internalID: 77968348094839269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_6
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 73
+        width: 152
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cb976e34499db7b0800000000000000
+      internalID: -5206837075786622014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_7
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 424
+        width: 58
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61470ad015ca49100800000000000000
+      internalID: 113905354712052758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_8
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 265
+        width: 86
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcd1e5259f8067470800000000000000
+      internalID: 8391904822573276621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_9
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 425
+        width: 60
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5f67f25fe2541780800000000000000
+      internalID: -8713248191212458146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_10
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 7
+        width: 539
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdf6d606de10cfc80800000000000000
+      internalID: -8287747095231893537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_11
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 265
+        width: 72
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e14d50fdbbedc3de0800000000000000
+      internalID: -1351960889636039650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_12
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 420
+        width: 57
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 799a8291c7e0dc2f0800000000000000
+      internalID: -951088020144477801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_13
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 425
+        width: 60
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 729e405f68a36c5b0800000000000000
+      internalID: -5348523156145116889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_14
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 265
+        width: 127
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c3ef340ff53ffe40800000000000000
+      internalID: 5692327823423824841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_15
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 424
+        width: 46
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d1f7e99009df99c0800000000000000
+      internalID: -3918174554183700008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_16
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 424
+        width: 47
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b01ade5a52d343560800000000000000
+      internalID: 7292520928526573835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_17
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 265
+        width: 137
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6a21e200291d17b0800000000000000
+      internalID: -5252013965166171537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_18
+      rect:
+        serializedVersion: 2
+        x: 785
+        y: 424
+        width: 38
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14d6f43c076390000800000000000000
+      internalID: 2593132731395393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_19
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 423
+        width: 60
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 454a6d6e4718a52d0800000000000000
+      internalID: -3289174238751710124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_20
+      rect:
+        serializedVersion: 2
+        x: 863
+        y: 265
+        width: 134
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fca733c31c647a2e0800000000000000
+      internalID: -2114643704274519345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_21
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 265
+        width: 127
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b357a08e4eecfa6d0800000000000000
+      internalID: -2976933346127743685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: crossroads_22
+      rect:
+        serializedVersion: 2
+        x: 1145
+        y: 265
+        width: 78
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73d0bb73a421a2b10800000000000000
+      internalID: 1957397098017787191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      crossroads_0: -1267662897243830254
+      crossroads_1: 8067921993137483952
+      crossroads_10: -8287747095231893537
+      crossroads_11: -1351960889636039650
+      crossroads_12: -951088020144477801
+      crossroads_13: -5348523156145116889
+      crossroads_14: 5692327823423824841
+      crossroads_15: -3918174554183700008
+      crossroads_16: 7292520928526573835
+      crossroads_17: -5252013965166171537
+      crossroads_18: 2593132731395393
+      crossroads_19: -3289174238751710124
+      crossroads_2: 510925455020719084
+      crossroads_20: -2114643704274519345
+      crossroads_21: -2976933346127743685
+      crossroads_22: 1957397098017787191
+      crossroads_3: -3126834818776427041
+      crossroads_4: 3591333533065969811
+      crossroads_5: 77968348094839269
+      crossroads_6: -5206837075786622014
+      crossroads_7: 113905354712052758
+      crossroads_8: 8391904822573276621
+      crossroads_9: -8713248191212458146
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
