@@ -5,8 +5,8 @@ public class playerBehavior : MonoBehaviour
 {
     public float speed = 5f;
     public float sprintMultiplier = 2f;
-
     public float jumpForce = 10f;
+
     public Transform groundCheck;
     public float groundCheckDistance= 0.2f;
     public LayerMask groundLayer;
@@ -17,10 +17,14 @@ public class playerBehavior : MonoBehaviour
     private bool isGrounded;
 
 
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+
+
     public ParticleSystem pixelParticle;
     public GameObject pointLight;
+    private bool isAnimated = false;
 
-    private bool isFiring = false;
 
     void Start()
     {
@@ -41,49 +45,59 @@ public class playerBehavior : MonoBehaviour
 
         //i need movemnt 
         if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed){
-            moveInput = -speed;
+            moveInput = -currentSpeed;
         }
-
         if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
         {
-            moveInput = speed;
+            moveInput = currentSpeed;
         }
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
         //cechk for the ground
         isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
 
+
+
         //jump fix this part 
         if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded){
+            Debug.Log("Space was pressed!");
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
-        //     //moveInput = speed;
+        // Better jump physics
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (rb.velocity.y > 0 && !Keyboard.current.spaceKey.isPressed)
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+        
 
 
-        // FIRE WITH SHIFT
+        //pixel animation
         if (Keyboard.current.shiftKey.isPressed)
         {
-            if (!isFiring)
+            if (!isAnimated)
             {
                 pixelParticle.Play();
-
-            if (pointLight != null)
+                if (pointLight != null)
                 pointLight.SetActive(true);
-                isFiring = true;
+                isAnimated = true;
             }
         }
         else
         {
-            if (isFiring)
+            if (isAnimated)
             {
-            pixelParticle.Stop();
-            if (pointLight != null)
-            pointLight.SetActive(false);
-            isFiring = false;
+                pixelParticle.Stop();
+                if (pointLight != null)
+                pointLight.SetActive(false);
+                isAnimated = false;
             }
         }
 
-        // Tell Animator whether we are walking
+        // Tell Animator whether what is our action
         if (anim != null)
         {
             bool isWalking = Mathf.Abs(moveInput) > 0;
@@ -92,6 +106,7 @@ public class playerBehavior : MonoBehaviour
             anim.SetBool("isRunning", isRunning);
             anim.SetBool("isWalking", isWalking);
             anim.SetBool("isGrounded", isGrounded);
+            anim.SetFloat("yVelocity", rb.velocity.y);
 
             // Flip sprite depending on direction
             if (moveInput > 0)
