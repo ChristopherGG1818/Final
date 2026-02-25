@@ -15,6 +15,12 @@ public class playerBehavior : MonoBehaviour
     private Animator anim; // Reference to the Animator
     private bool isGrounded;
 
+
+    public ParticleSystem fireParticle;
+    public GameObject pointLight;
+
+    private bool isFiring = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,7 +39,7 @@ public class playerBehavior : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
-        //cech for the ground
+        //cechk for the ground
         isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
 
         //jump fix this part 
@@ -41,6 +47,30 @@ public class playerBehavior : MonoBehaviour
         //     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         // }
         //     //moveInput = speed;
+
+
+        // FIRE WITH SHIFT
+        if (Keyboard.current.leftShiftKey.isPressed)
+        {
+            if (!isFiring)
+            {
+                fireParticle.Play();
+
+            if (pointLight != null)
+                pointLight.SetActive(true);
+                isFiring = true;
+            }
+        }
+        else
+        {
+            if (isFiring)
+            {
+            fireParticle.Stop();
+            if (pointLight != null)
+            pointLight.SetActive(false);
+            isFiring = false;
+            }
+        }
 
         // Tell Animator whether we are walking
         if (anim != null)
