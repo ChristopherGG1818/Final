@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class playerBehavior : MonoBehaviour
 {
     public float speed = 5f;
+    public float sprintMultiplier = 2f;
 
     public float jumpForce = 10f;
     public Transform groundCheck;
@@ -16,7 +17,7 @@ public class playerBehavior : MonoBehaviour
     private bool isGrounded;
 
 
-    public ParticleSystem fireParticle;
+    public ParticleSystem pixelParticle;
     public GameObject pointLight;
 
     private bool isFiring = false;
@@ -31,30 +32,40 @@ public class playerBehavior : MonoBehaviour
     {
         float moveInput = 0f;
 
-        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+        float currentSpeed = speed;
+
+        if (Keyboard.current.shiftKey.isPressed  && isGrounded)
+        {
+            currentSpeed *= sprintMultiplier; // Increase speed while Shift is held
+        }
+
+        //i need movemnt 
+        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed){
             moveInput = -speed;
+        }
 
         if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+        {
             moveInput = speed;
-
+        }
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
         //cechk for the ground
         isGrounded = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
 
         //jump fix this part 
-        // if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded){
-        //     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        // }
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded){
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
         //     //moveInput = speed;
 
 
         // FIRE WITH SHIFT
-        if (Keyboard.current.leftShiftKey.isPressed)
+        if (Keyboard.current.shiftKey.isPressed)
         {
             if (!isFiring)
             {
-                fireParticle.Play();
+                pixelParticle.Play();
 
             if (pointLight != null)
                 pointLight.SetActive(true);
@@ -65,7 +76,7 @@ public class playerBehavior : MonoBehaviour
         {
             if (isFiring)
             {
-            fireParticle.Stop();
+            pixelParticle.Stop();
             if (pointLight != null)
             pointLight.SetActive(false);
             isFiring = false;
@@ -76,6 +87,9 @@ public class playerBehavior : MonoBehaviour
         if (anim != null)
         {
             bool isWalking = Mathf.Abs(moveInput) > 0;
+            bool isRunning = Keyboard.current.shiftKey.isPressed && isWalking;
+
+            anim.SetBool("isRunning", isRunning);
             anim.SetBool("isWalking", isWalking);
             anim.SetBool("isGrounded", isGrounded);
 
