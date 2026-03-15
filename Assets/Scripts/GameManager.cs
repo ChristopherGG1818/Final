@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     {
         titleScreen.SetActive(false); // Hides the menu
         // Add other start game logic here
+        //titleScreen.SetActive(false); // hides the menu
+        Debug.Log("Play button clicked!"); // optional: check console
     }
 
     // Start is called once before the first frame update
