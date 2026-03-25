@@ -11127,8 +11127,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1627439460}
+  - component: {fileID: 1627439461}
   m_Layer: 0
-  m_Name: Update(fixed game)
+  m_Name: bossOne
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11149,6 +11150,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1627439461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627439459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 542a7451f572c4571b3643a6996e10ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1791705558
 GameObject:
   m_ObjectHideFlags: 0
