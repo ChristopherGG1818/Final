@@ -12543,6 +12543,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &601294890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601294891}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &601294891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601294890}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.27, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1418968011}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -28399,6 +28430,9 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  shootCooldown: 2
   minX: 16
   maxX: 68
   minY: 23
@@ -40743,6 +40777,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1791705561}
+  - {fileID: 601294891}
   m_Father: {fileID: 1568373827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &1418968012
@@ -40878,6 +40913,9 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 601294891}
+  shootCooldown: 2
   minX: 19
   maxX: 59
   minY: 7
@@ -41233,6 +41271,9 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  shootCooldown: 2
   minX: 16
   maxX: 68
   minY: 23
@@ -46554,7 +46595,7 @@ GameObject:
   - component: {fileID: 1807581441}
   m_Layer: 3
   m_Name: floors
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46686,9 +46727,12 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
-  minX: 5
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  shootCooldown: 2
+  minX: 17.8
   maxX: 40
-  minY: 23
+  minY: 31
   maxY: 37
   player: {fileID: 1072006882}
   followRange: 5
@@ -47118,7 +47162,7 @@ Transform:
   m_GameObject: {fileID: 1855823812}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.5, y: 23.8, z: 0}
+  m_LocalPosition: {x: 5.5, y: 32.5, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47176,9 +47220,12 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
-  minX: 5
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  shootCooldown: 2
+  minX: 17.8
   maxX: 40
-  minY: 23
+  minY: 31
   maxY: 37
   player: {fileID: 1072006882}
   followRange: 5
@@ -58274,9 +58321,12 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
-  minX: 5
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  shootCooldown: 2
+  minX: 17.8
   maxX: 40
-  minY: 23
+  minY: 31
   maxY: 37
   player: {fileID: 1072006882}
   followRange: 5

@@ -1,11 +1,16 @@
 using UnityEngine;
 
-public class bugOneBehavior : MonoBehaviour
-{
+public class bugOneBehavior : MonoBehaviour{
     [Header("Movement Settings")]
     public float speed = 2f;
     public float minMoveTime = 1f;
     public float maxMoveTime = 3f;
+
+    [Header("Shooting")]
+    public GameObject projectilePrefab;
+    public Transform firePoint;
+    public float shootCooldown = 2f;
+    private float shootTimer;
 
     [Header("Movement Boundaries")]
     public float minX;
@@ -32,6 +37,14 @@ public class bugOneBehavior : MonoBehaviour
         if (playerInRange && player != null)
         {
             FollowPlayerSmooth();
+            shootTimer -= Time.deltaTime;
+        
+        if (shootTimer <= 0f)
+        {
+            ShootAtPlayer();
+            shootTimer = shootCooldown;
+            
+        }
         }
         else
         {
@@ -129,5 +142,17 @@ public class bugOneBehavior : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, followRange);
+    }
+
+    //shoot at main protagonist
+    void ShootAtPlayer()
+    {
+    if (projectilePrefab == null || player == null) return;
+    
+    Vector2 direction = (player.position - firePoint.position).normalized;
+    
+    GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+    bugProjectile projectileScript = proj.GetComponent<bugProjectile>();
+    projectileScript.SetDirection(direction);
     }
 }
