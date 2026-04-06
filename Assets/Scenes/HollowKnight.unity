@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 41832938}
   - component: {fileID: 41832937}
   m_Layer: 5
-  m_Name: health
+  m_Name: health (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18046,6 +18046,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 676623455}
+  - {fileID: 1664554890}
   - {fileID: 41832936}
   - {fileID: 657440733}
   - {fileID: 975767109}
@@ -28808,8 +28809,8 @@ Transform:
   m_GameObject: {fileID: 1004622868}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 41.66, y: 14.100003, z: 0}
-  m_LocalScale: {x: 2.1167629, y: 2.0165896, z: 1}
+  m_LocalPosition: {x: 41.091, y: 14.100003, z: 0}
+  m_LocalScale: {x: 2.1167629, y: 1.9090569, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1807581441}
@@ -29309,6 +29310,11 @@ MonoBehaviour:
   lowJumpMultiplier: 2
   pixelParticle: {fileID: 1876463245}
   pointLight: {fileID: 619394800}
+  knockbackDuration: 0.2
+  knockbackPower: 15
+  flashDuration: 0.25
+  flashCount: 5
+  health: {fileID: 1664554891}
 --- !u!1 &1091934046
 GameObject:
   m_ObjectHideFlags: 0
@@ -29612,8 +29618,8 @@ Transform:
   m_GameObject: {fileID: 1110289290}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 20.5, y: 14.100003, z: 0}
-  m_LocalScale: {x: 2.1167629, y: -2.01659, z: 1}
+  m_LocalPosition: {x: 21.4032, y: 14.100003, z: 0}
+  m_LocalScale: {x: 2.1167629, y: -2.187597, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1807581441}
@@ -41160,37 +41166,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &1462443562
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1462443563}
-  m_Layer: 0
-  m_Name: fff
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1462443563
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462443562}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.09, y: 13.64289, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1511723695
 GameObject:
   m_ObjectHideFlags: 0
@@ -41785,6 +41760,56 @@ Transform:
   - {fileID: 2137978617}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1664554889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664554890}
+  - component: {fileID: 1664554891}
+  m_Layer: 0
+  m_Name: HealthManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1664554890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664554889}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -933.0928, y: -535.62646, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 740671250}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1664554891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664554889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87fdf99491f5a4a649ada62b5e818602, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  hearts:
+  - {fileID: 41832937}
+  - {fileID: 657440734}
+  - {fileID: 975767110}
+  - {fileID: 1815362548}
+  maxHealth: 4
 --- !u!1 &1776054632
 GameObject:
   m_ObjectHideFlags: 0
@@ -47148,8 +47173,8 @@ Transform:
   m_GameObject: {fileID: 1833631421}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 61, y: 14.100003, z: 0}
-  m_LocalScale: {x: 2.1167629, y: 2.0165896, z: 1}
+  m_LocalPosition: {x: 60.7792, y: 14.100003, z: 0}
+  m_LocalScale: {x: 2.1167629, y: 2.0583026, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1807581441}
@@ -52434,8 +52459,8 @@ Transform:
   m_GameObject: {fileID: 1891307063}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.8, y: -4.0532, z: 0}
-  m_LocalScale: {x: -3.17985, y: 2.1857488, z: 1}
+  m_LocalPosition: {x: 38.7359, y: -4.0532, z: 0}
+  m_LocalScale: {x: -2.8109875, y: 2.1857488, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1807581441}
@@ -53155,8 +53180,8 @@ Transform:
   m_GameObject: {fileID: 2095896866}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.65, y: -4.0532, z: 0}
-  m_LocalScale: {x: 3.17985, y: 2.1857488, z: 1}
+  m_LocalPosition: {x: 22.1558, y: -4.0532, z: 0}
+  m_LocalScale: {x: 3.0084562, y: 2.1857488, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1807581441}
@@ -58721,4 +58746,3 @@ SceneRoots:
   - {fileID: 1568373827}
   - {fileID: 1300753147}
   - {fileID: 485298289}
-  - {fileID: 1462443563}

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class playerBehavior : MonoBehaviour
 {
@@ -20,14 +21,46 @@ public class playerBehavior : MonoBehaviour
     public GameObject pointLight;
     private bool isAnimated = false;
 
+    [Header("Knockback Settings")]
+    public float knockbackDuration = 0.2f;  // How long knockback lasts
+    public float knockbackPower = 15f;      // Strength of knockback
+    private bool isKnockedback = false;
+    private float knockbackTimer = 0f;
+    private Vector2 knockbackDirection;
+
+    [Header("Hit Flash Settings")]
+    public float flashDuration = 0.25f; // How long each flash lasts
+    public int flashCount = 5;          // How many times to flash
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+
+    [Header("Health")]
+    public PlayerHealth health; // Drag your PlayerHealth component here
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+            originalColor = spriteRenderer.color;
     }
 
     void Update()
     {
+        // --- Handle knockback ---
+        if (isKnockedback)
+        {
+            rb.velocity = knockbackDirection;
+
+            knockbackTimer -= Time.deltaTime;
+            if (knockbackTimer <= 0f)
+                isKnockedback = false;
+
+            return; // Skip normal movement while knocked back
+        }
+
         float moveInput = 0f;
         float currentSpeed = speed;
 
@@ -103,5 +136,42 @@ public class playerBehavior : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
             isGrounded = false;
+    }
+
+    // --- Knockback function ---
+    public void ApplyKnockback(Vector2 sourcePosition)
+    {
+        // Knockback direction
+        knockbackDirection = ((Vector2)transform.position - sourcePosition).normalized;
+        knockbackDirection *= knockbackPower;
+        knockbackDirection.y = knockbackPower / 2f;
+
+        isKnockedback = true;
+        knockbackTimer = knockbackDuration;
+
+        // Trigger hit flash
+        if (spriteRenderer != null)
+        {
+            StopAllCoroutines(); // Stop any ongoing flash
+            StartCoroutine(FlashCoroutine());
+        }
+
+        // Take damage
+        if (health != null)
+        {
+            health.TakeDamage(1); // remove 1 heart per hit
+        }
+    }
+
+    // --- Hit flash coroutine ---
+    private IEnumerator FlashCoroutine()
+    {
+        for (int i = 0; i < flashCount; i++)
+        {
+            spriteRenderer.color = Color.black;  // Flash color (black)
+            yield return new WaitForSeconds(flashDuration);
+            spriteRenderer.color = originalColor; // Revert to original
+            yield return new WaitForSeconds(flashDuration);
+        }
     }
 }

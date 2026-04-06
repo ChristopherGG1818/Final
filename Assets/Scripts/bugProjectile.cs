@@ -10,7 +10,7 @@ public class bugProjectile : MonoBehaviour
     public void SetDirection(Vector2 dir)
     {
         direction = dir.normalized;
-        Destroy(gameObject, lifeTime); // auto destroy
+        Destroy(gameObject, lifeTime); // auto destroy after lifetime
     }
 
     void Update()
@@ -22,13 +22,19 @@ public class bugProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // damage player later
-            Destroy(gameObject);
+            // Apply knockback to the player
+            playerBehavior player = collision.GetComponent<playerBehavior>();
+            if (player != null)
+            {
+                player.ApplyKnockback(transform.position); // knockback away from projectile
+            }
+
+            Destroy(gameObject); // Destroy projectile after hitting player
         }
 
         if (collision.CompareTag("Wall"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Destroy projectile on walls
         }
     }
 }
