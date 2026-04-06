@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI; // Needed for UI images
-using UnityEngine.SceneManagement; // Optional, for restarting or going to Game Over scene
+using UnityEngine.SceneManagement; // for restarting or going to Game Over scene
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -43,9 +43,7 @@ public class PlayerHealth : MonoBehaviour
     void GameOver()
     {
         // Stop time
-        Time.timeScale = 0f;
-
-        // Optional: show game over UI or reload scene
-        Debug.Log("Game Over!");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("GameOver");
     }
 }
