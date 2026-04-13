@@ -37,7 +37,7 @@ public class playerBehavior : MonoBehaviour
     [Header("Health")]
     public PlayerHealth health;
 
-    // 👣 FOOTSTEP SYSTEM (NEW)
+    // FOOTSTEP SYSTEM (NEW)
     [Header("Footsteps")]
     public AudioSource footstepSource;
     public AudioClip[] footstepClips;
@@ -83,7 +83,7 @@ public class playerBehavior : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
-        // 👣 FOOTSTEPS CALLED HERE
+        // FOOTSTEPS CALLED HERE
         HandleFootsteps(moveInput);
 
         // Jump
@@ -135,7 +135,7 @@ public class playerBehavior : MonoBehaviour
         }
     }
 
-    // 👣 FOOTSTEP LOGIC
+    // FOOTSTEP LOGIC
     void HandleFootsteps(float moveInput)
     {
         bool isMoving = Mathf.Abs(moveInput) > 0.1f && isGrounded;
