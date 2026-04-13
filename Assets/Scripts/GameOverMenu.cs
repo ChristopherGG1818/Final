@@ -9,4 +9,10 @@ public class GameOverMenu : MonoBehaviour
         SceneManager.LoadScene("HollowKnight"); // your gameplay scene name
         
     }
+    public void GMenu()
+    {
+        Time.timeScale = 1f; // VERY IMPORTANT (unpause game)
+        SceneManager.LoadScene("MainMenu"); // your gameplay scene name
+        
+    }
 }
