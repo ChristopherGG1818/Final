@@ -8,7 +8,7 @@ public class playerBehavior : MonoBehaviour
     public float sprintMultiplier = 2f;
     public float jumpForce = 10f;
 
-    public LayerMask groundLayer; // Ground layer for trigger check
+    public LayerMask groundLayer;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -22,20 +22,27 @@ public class playerBehavior : MonoBehaviour
     private bool isAnimated = false;
 
     [Header("Knockback Settings")]
-    public float knockbackDuration = 0.2f;  // How long knockback lasts
-    public float knockbackPower = 15f;      // Strength of knockback
+    public float knockbackDuration = 0.2f;
+    public float knockbackPower = 15f;
     private bool isKnockedback = false;
     private float knockbackTimer = 0f;
     private Vector2 knockbackDirection;
 
     [Header("Hit Flash Settings")]
-    public float flashDuration = 0.25f; // How long each flash lasts
-    public int flashCount = 5;          // How many times to flash
+    public float flashDuration = 0.25f;
+    public int flashCount = 5;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
     [Header("Health")]
-    public PlayerHealth health; // Drag your PlayerHealth component here
+    public PlayerHealth health;
+
+    // 👣 FOOTSTEP SYSTEM (NEW)
+    [Header("Footsteps")]
+    public AudioSource footstepSource;
+    public AudioClip[] footstepClips;
+    public float stepRate = 0.4f;
+    private float stepTimer;
 
     void Start()
     {
@@ -58,7 +65,7 @@ public class playerBehavior : MonoBehaviour
             if (knockbackTimer <= 0f)
                 isKnockedback = false;
 
-            return; // Skip normal movement while knocked back
+            return;
         }
 
         float moveInput = 0f;
@@ -76,6 +83,9 @@ public class playerBehavior : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
+        // 👣 FOOTSTEPS CALLED HERE
+        HandleFootsteps(moveInput);
+
         // Jump
         if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
         {
@@ -88,7 +98,7 @@ public class playerBehavior : MonoBehaviour
         else if (rb.velocity.y > 0 && !Keyboard.current.spaceKey.isPressed)
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
 
-        // Pixel sprint animation
+        // Sprint particles
         if (Keyboard.current.shiftKey.isPressed)
         {
             if (!isAnimated)
@@ -125,7 +135,36 @@ public class playerBehavior : MonoBehaviour
         }
     }
 
-    // Trigger-based ground check
+    // 👣 FOOTSTEP LOGIC
+    void HandleFootsteps(float moveInput)
+    {
+        bool isMoving = Mathf.Abs(moveInput) > 0.1f && isGrounded;
+
+        if (isMoving)
+        {
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0f)
+            {
+                PlayFootstep();
+                stepTimer = stepRate;
+            }
+        }
+        else
+        {
+            stepTimer = 0f;
+        }
+    }
+
+    void PlayFootstep()
+    {
+        if (footstepClips.Length == 0 || footstepSource == null) return;
+
+        AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
+        footstepSource.PlayOneShot(clip);
+    }
+
+    // Ground check
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
@@ -138,10 +177,9 @@ public class playerBehavior : MonoBehaviour
             isGrounded = false;
     }
 
-    // --- Knockback function ---
+    // Knockback
     public void ApplyKnockback(Vector2 sourcePosition)
     {
-        // Knockback direction
         knockbackDirection = ((Vector2)transform.position - sourcePosition).normalized;
         knockbackDirection *= knockbackPower;
         knockbackDirection.y = knockbackPower / 2f;
@@ -149,28 +187,25 @@ public class playerBehavior : MonoBehaviour
         isKnockedback = true;
         knockbackTimer = knockbackDuration;
 
-        // Trigger hit flash
         if (spriteRenderer != null)
         {
-            StopAllCoroutines(); // Stop any ongoing flash
+            StopAllCoroutines();
             StartCoroutine(FlashCoroutine());
         }
 
-        // Take damage
         if (health != null)
         {
-            health.TakeDamage(1); // remove 1 heart per hit
+            health.TakeDamage(1);
         }
     }
 
-    // --- Hit flash coroutine ---
     private IEnumerator FlashCoroutine()
     {
         for (int i = 0; i < flashCount; i++)
         {
-            spriteRenderer.color = Color.black;  // Flash color (black)
+            spriteRenderer.color = Color.black;
             yield return new WaitForSeconds(flashDuration);
-            spriteRenderer.color = originalColor; // Revert to original
+            spriteRenderer.color = originalColor;
             yield return new WaitForSeconds(flashDuration);
         }
     }
