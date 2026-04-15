@@ -29522,17 +29522,16 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 1776054633}
+  shootCooldown: 2
   minX: 16
   maxX: 68
   minY: 23
   maxY: 33
   player: {fileID: 1072006882}
-  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
-  firePoint: {fileID: 1776054633}
-  shootCooldown: 2
-  health: 3
-  knockbackForce: 5
-  flashTime: 0.1
+  followRange: 5
+  chaseSpeedMultiplier: 1.5
 --- !u!60 &916631400
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -30373,7 +30372,6 @@ MonoBehaviour:
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
   pixelParticle: {fileID: 1876463245}
-  pointLight: {fileID: 1876463243}
   knockbackDuration: 0.2
   knockbackPower: 15
   flashDuration: 0.25
@@ -30382,7 +30380,8 @@ MonoBehaviour:
   footstepSource: {fileID: 1072006886}
   footstepClips:
   - {fileID: 8300000, guid: f2dca697fe3ea4b45831dc5f202b10da, type: 3}
-  stepRate: 0.4
+  stepRate: 0.35
+  sword: {fileID: 1335923416}
 --- !u!82 &1072006886
 AudioSource:
   m_ObjectHideFlags: 0
@@ -36897,7 +36896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1335923414
 SpriteRenderer:
   serializedVersion: 2
@@ -36966,7 +36965,7 @@ Transform:
   m_GameObject: {fileID: 1335923413}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.8467138, w: 0.5320487}
-  m_LocalPosition: {x: 1.3004999, y: 0.05000019, z: 0}
+  m_LocalPosition: {x: 0.58, y: 0.05000019, z: 0}
   m_LocalScale: {x: 0.263171, y: 0.12886702, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36984,7 +36983,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cdcafb18a656474cacdc8a1f8f894d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sword
-  damage: 1
+  hitbox: {fileID: 1335923417}
+  activeTime: 0.2
+  player: {fileID: 1072006882}
+  offset: {x: 0.8, y: 0, z: 0}
 --- !u!60 &1335923417
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -37015,7 +37017,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -42660,17 +42662,16 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 601294891}
+  shootCooldown: 2
   minX: 19
   maxX: 59
   minY: 7
   maxY: 15
   player: {fileID: 1072006882}
-  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
-  firePoint: {fileID: 601294891}
-  shootCooldown: 2
-  health: 3
-  knockbackForce: 5
-  flashTime: 0.1
+  followRange: 5
+  chaseSpeedMultiplier: 1.5
 --- !u!58 &1418968015
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -43208,17 +43209,16 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 1138043428}
+  shootCooldown: 2
   minX: 16
   maxX: 68
   minY: 23
   maxY: 33
   player: {fileID: 1072006882}
-  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
-  firePoint: {fileID: 1138043428}
-  shootCooldown: 2
-  health: 3
-  knockbackForce: 5
-  flashTime: 0.1
+  followRange: 5
+  chaseSpeedMultiplier: 1.5
 --- !u!60 &1560938423
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -48840,17 +48840,16 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 1867940932}
+  shootCooldown: 2
   minX: 17
   maxX: 55
   minY: 45
   maxY: 55
   player: {fileID: 1072006882}
-  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
-  firePoint: {fileID: 1867940932}
-  shootCooldown: 2
-  health: 3
-  knockbackForce: 5
-  flashTime: 0.1
+  followRange: 5
+  chaseSpeedMultiplier: 1.5
 --- !u!60 &1812255164
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -49472,17 +49471,16 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 512833028}
+  shootCooldown: 2
   minX: 16
   maxX: 45
   minY: 40
   maxY: 55
   player: {fileID: 1072006882}
-  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
-  firePoint: {fileID: 512833028}
-  shootCooldown: 2
-  health: 3
-  knockbackForce: 5
-  flashTime: 0.1
+  followRange: 5
+  chaseSpeedMultiplier: 1.5
 --- !u!60 &1855823816
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -60761,17 +60759,16 @@ MonoBehaviour:
   speed: 2
   minMoveTime: 1
   maxMoveTime: 3
+  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
+  firePoint: {fileID: 1985654949}
+  shootCooldown: 2
   minX: 17.8
   maxX: 40
   minY: 40
   maxY: 55
   player: {fileID: 1072006882}
-  projectilePrefab: {fileID: 1209166667478182004, guid: 4082f5f19c5494cf3926bea397f25c0d, type: 3}
-  firePoint: {fileID: 1985654949}
-  shootCooldown: 2
-  health: 3
-  knockbackForce: 5
-  flashTime: 0.1
+  followRange: 5
+  chaseSpeedMultiplier: 1.5
 --- !u!60 &2137978620
 PolygonCollider2D:
   m_ObjectHideFlags: 0

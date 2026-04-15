@@ -39,8 +39,11 @@ public class playerBehavior : MonoBehaviour
     [Header("Footsteps")]
     public AudioSource footstepSource;
     public AudioClip[] footstepClips;
-    public float stepRate = 0.4f;
+    public float stepRate = 0.35f;
     private float stepTimer;
+
+    // ADDED ONLY THIS
+    public Sword sword;
 
     void Start()
     {
@@ -54,7 +57,6 @@ public class playerBehavior : MonoBehaviour
 
     void Update()
     {
-        // --- Handle knockback ---
         if (isKnockedback)
         {
             rb.velocity = knockbackDirection;
@@ -115,6 +117,13 @@ public class playerBehavior : MonoBehaviour
 
                 isAnimated = false;
             }
+        }
+
+        //Sword attack (ADDED ONLY THIS)
+        if (Keyboard.current.jKey.wasPressedThisFrame)
+        {
+            if (sword != null)
+                sword.Attack();
         }
 
         // Animator
