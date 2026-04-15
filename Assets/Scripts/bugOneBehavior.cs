@@ -22,6 +22,8 @@ public class bugOneBehavior : MonoBehaviour{
     public Transform player;        // Assign your main protagonist in Inspector
     public float followRange = 5f;  // Radius to start following
     public float chaseSpeedMultiplier = 1.5f; // Slightly faster when chasing
+    [Header("Health")]
+    public int health = 3;
 
     private Vector2 moveDirection;
     private float moveTimer;
@@ -69,6 +71,18 @@ public class bugOneBehavior : MonoBehaviour{
         {
             ChooseNewDirection();
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+    health -= damage;
+
+    Debug.Log("Bug hit! Health: " + health);
+
+    if (health <= 0)
+    {
+        Destroy(gameObject);
+    }
     }
 
     void ChooseNewDirection()

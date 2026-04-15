@@ -21,7 +21,7 @@ public class Sword : MonoBehaviour
 
     if (playerAnimator != null)
     {
-        playerAnimator.speed = 10f;
+        playerAnimator.speed = 20f;
     }
     }
 
@@ -58,4 +58,15 @@ public class Sword : MonoBehaviour
         hitbox.enabled = false;
         isAttacking = false;
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Enemy"))
+    {
+        Debug.Log("Hit enemy!");
+
+        other.GetComponent<bugOneBehavior>()?.TakeDamage(1);
+    }
+}
+    
 }
