@@ -21,6 +21,10 @@ public class playerBehavior : MonoBehaviour
     public GameObject pointLight;
     private bool isAnimated = false;
 
+    [Header("Combat")]
+    public GameObject nail;
+    private bool isAttacking = false;
+
     [Header("Knockback Settings")]
     public float knockbackDuration = 0.2f;
     public float knockbackPower = 15f;
@@ -68,6 +72,10 @@ public class playerBehavior : MonoBehaviour
             return;
         }
 
+        // --- STOP movement if attacking ---
+        if (isAttacking)
+            return;
+
         float moveInput = 0f;
         float currentSpeed = speed;
 
@@ -83,7 +91,7 @@ public class playerBehavior : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
-        // FOOTSTEPS CALLED HERE
+        // FOOTSTEPS
         HandleFootsteps(moveInput);
 
         // Jump
@@ -97,6 +105,14 @@ public class playerBehavior : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         else if (rb.velocity.y > 0 && !Keyboard.current.spaceKey.isPressed)
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+
+        // Attack
+        if (Keyboard.current.jKey.wasPressedThisFrame && !isAttacking)
+        {
+            isAttacking = true;
+            if (anim != null)
+                anim.SetTrigger("Attack");
+        }
 
         // Sprint particles
         if (Keyboard.current.shiftKey.isPressed)
@@ -133,6 +149,21 @@ public class playerBehavior : MonoBehaviour
             if (moveInput > 0) transform.localScale = new Vector3(1, 1, 1);
             else if (moveInput < 0) transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    // NAIL CONTROL (Animation Events call these)
+    public void EnableNail()
+    {
+        if (nail != null)
+            nail.SetActive(true);
+    }
+
+    public void DisableNail()
+    {
+        if (nail != null)
+            nail.SetActive(false);
+
+        isAttacking = false;
     }
 
     // FOOTSTEP LOGIC

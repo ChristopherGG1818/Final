@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int damage = 1;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy!");
+
+            // Call enemy damage function (only if it exists)
+            collision.GetComponent<EnemyHealth>()?.TakeDamage(damage);
+        }
     }
 }
