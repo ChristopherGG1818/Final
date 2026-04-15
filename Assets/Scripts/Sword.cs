@@ -4,34 +4,46 @@ using System.Collections;
 public class Sword : MonoBehaviour
 {
     public Collider2D hitbox;
-    public float activeTime = 0.2f;
+    public float activeTime = 0.15f;
+    public float offsetDistance = 1.5f;
 
-    [Header("Follow Player")]
-    public Transform player;
+    public Animator playerAnimator;
 
     private bool isAttacking;
-
-    public Vector3 offset = new Vector3(0.58f, 0f, 0f);
+    private Transform player;
 
     void Start()
     {
         hitbox.enabled = false;
+        player = transform.parent;
+
+        player = transform.parent;
+
+    if (playerAnimator != null)
+    {
+        playerAnimator.speed = 10f;
+    }
     }
 
     void Update()
     {
-        if (player != null)
-        {
-            float direction = Mathf.Sign(player.localScale.x);
+        if (player == null) return;
 
-            transform.position = player.position + new Vector3(offset.x * direction, offset.y, 0f);
-        }
+        float facing = Mathf.Sign(player.localScale.x);
+
+        transform.localPosition = new Vector3(
+            offsetDistance * facing,
+            0.5f,
+            0f
+        );
     }
 
     public void Attack()
     {
+        Debug.Log("Sword Attack Called!");
         if (isAttacking) return;
 
+        playerAnimator.SetTrigger("Attack");
         StartCoroutine(Slash());
     }
 
@@ -41,15 +53,9 @@ public class Sword : MonoBehaviour
 
         hitbox.enabled = true;
 
-        float timer = 0f;
-        while (timer < activeTime)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(activeTime);
 
         hitbox.enabled = false;
-
         isAttacking = false;
     }
 }
