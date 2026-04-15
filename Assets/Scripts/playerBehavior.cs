@@ -18,12 +18,7 @@ public class playerBehavior : MonoBehaviour
     public float lowJumpMultiplier = 2f;
 
     public ParticleSystem pixelParticle;
-    public GameObject pointLight;
     private bool isAnimated = false;
-
-    [Header("Combat")]
-    public GameObject nail;
-    private bool isAttacking = false;
 
     [Header("Knockback Settings")]
     public float knockbackDuration = 0.2f;
@@ -41,7 +36,6 @@ public class playerBehavior : MonoBehaviour
     [Header("Health")]
     public PlayerHealth health;
 
-    // FOOTSTEP SYSTEM (NEW)
     [Header("Footsteps")]
     public AudioSource footstepSource;
     public AudioClip[] footstepClips;
@@ -72,10 +66,6 @@ public class playerBehavior : MonoBehaviour
             return;
         }
 
-        // --- STOP movement if attacking ---
-        if (isAttacking)
-            return;
-
         float moveInput = 0f;
         float currentSpeed = speed;
 
@@ -91,7 +81,6 @@ public class playerBehavior : MonoBehaviour
 
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
 
-        // FOOTSTEPS
         HandleFootsteps(moveInput);
 
         // Jump
@@ -106,21 +95,14 @@ public class playerBehavior : MonoBehaviour
         else if (rb.velocity.y > 0 && !Keyboard.current.spaceKey.isPressed)
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
 
-        // Attack
-        if (Keyboard.current.jKey.wasPressedThisFrame && !isAttacking)
-        {
-            isAttacking = true;
-            if (anim != null)
-                anim.SetTrigger("Attack");
-        }
-
-        // Sprint particles
+        // Sprint particles ONLY
         if (Keyboard.current.shiftKey.isPressed)
         {
             if (!isAnimated)
             {
-                pixelParticle.Play();
-                if (pointLight != null) pointLight.SetActive(true);
+                if (pixelParticle != null)
+                    pixelParticle.Play();
+
                 isAnimated = true;
             }
         }
@@ -128,8 +110,9 @@ public class playerBehavior : MonoBehaviour
         {
             if (isAnimated)
             {
-                pixelParticle.Stop();
-                if (pointLight != null) pointLight.SetActive(false);
+                if (pixelParticle != null)
+                    pixelParticle.Stop();
+
                 isAnimated = false;
             }
         }
@@ -145,28 +128,11 @@ public class playerBehavior : MonoBehaviour
             anim.SetBool("isGrounded", isGrounded);
             anim.SetFloat("yVelocity", rb.velocity.y);
 
-            // Flip sprite
             if (moveInput > 0) transform.localScale = new Vector3(1, 1, 1);
             else if (moveInput < 0) transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 
-    // NAIL CONTROL (Animation Events call these)
-    public void EnableNail()
-    {
-        if (nail != null)
-            nail.SetActive(true);
-    }
-
-    public void DisableNail()
-    {
-        if (nail != null)
-            nail.SetActive(false);
-
-        isAttacking = false;
-    }
-
-    // FOOTSTEP LOGIC
     void HandleFootsteps(float moveInput)
     {
         bool isMoving = Mathf.Abs(moveInput) > 0.1f && isGrounded;
@@ -195,7 +161,6 @@ public class playerBehavior : MonoBehaviour
         footstepSource.PlayOneShot(clip);
     }
 
-    // Ground check
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
@@ -208,7 +173,6 @@ public class playerBehavior : MonoBehaviour
             isGrounded = false;
     }
 
-    // Knockback
     public void ApplyKnockback(Vector2 sourcePosition)
     {
         knockbackDirection = ((Vector2)transform.position - sourcePosition).normalized;
