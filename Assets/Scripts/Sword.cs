@@ -10,6 +10,7 @@ public class Sword : MonoBehaviour
     public Animator playerAnimator;
 
     private bool isAttacking;
+    private bool hasHit; // NEW
     private Transform player;
 
     void Start()
@@ -17,12 +18,10 @@ public class Sword : MonoBehaviour
         hitbox.enabled = false;
         player = transform.parent;
 
-        player = transform.parent;
-
-    if (playerAnimator != null)
-    {
-        playerAnimator.speed = 20f;
-    }
+        if (playerAnimator != null)
+        {
+            playerAnimator.speed = 10f; // you can lower later if needed
+        }
     }
 
     void Update()
@@ -50,6 +49,7 @@ public class Sword : MonoBehaviour
     IEnumerator Slash()
     {
         isAttacking = true;
+        hasHit = false; // RESET EACH SWING
 
         hitbox.enabled = true;
 
@@ -60,13 +60,16 @@ public class Sword : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other)
-{
-    if (other.CompareTag("Enemy"))
     {
-        Debug.Log("Hit enemy!");
+        if (hasHit) return; // PREVENT MULTIPLE HITS
 
-        other.GetComponent<bugOneBehavior>()?.TakeDamage(1);
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit enemy!");
+
+            hasHit = true; // mark as already hit
+
+            other.GetComponent<bugOneBehavior>()?.TakeDamage(1);
+        }
     }
-}
-    
 }
