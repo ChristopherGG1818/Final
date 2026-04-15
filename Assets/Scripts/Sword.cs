@@ -10,18 +10,19 @@ public class Sword : MonoBehaviour
     public Animator playerAnimator;
 
     private bool isAttacking;
-    private bool hasHit; // NEW
+    private bool hasHit;
     private Transform player;
+
+    private SpriteRenderer sr;
 
     void Start()
     {
         hitbox.enabled = false;
         player = transform.parent;
 
-        if (playerAnimator != null)
-        {
-            playerAnimator.speed = 10f; // you can lower later if needed
-        }
+        sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.enabled = false; // hide sword at start
     }
 
     void Update()
@@ -42,32 +43,41 @@ public class Sword : MonoBehaviour
         Debug.Log("Sword Attack Called!");
         if (isAttacking) return;
 
+        isAttacking = true;
+
+        if (sr != null)
+            sr.enabled = true; // show sword
+
         playerAnimator.SetTrigger("Attack");
+
         StartCoroutine(Slash());
     }
 
     IEnumerator Slash()
     {
-        isAttacking = true;
-        hasHit = false; // RESET EACH SWING
+        hasHit = false;
 
         hitbox.enabled = true;
 
         yield return new WaitForSeconds(activeTime);
 
         hitbox.enabled = false;
+
         isAttacking = false;
+
+        if (sr != null)
+            sr.enabled = false; // hide sword
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (hasHit) return; // PREVENT MULTIPLE HITS
+        if (hasHit) return;
 
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Hit enemy!");
+            hasHit = true;
 
-            hasHit = true; // mark as already hit
+            Debug.Log("Hit enemy!");
 
             other.GetComponent<bugOneBehavior>()?.TakeDamage(1);
         }
