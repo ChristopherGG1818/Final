@@ -10,8 +10,8 @@ public class Sword : MonoBehaviour
     public Transform player;
 
     private bool isAttacking;
+
     public Vector3 offset = new Vector3(0.58f, 0f, 0f);
-    
 
     void Start()
     {
@@ -20,10 +20,11 @@ public class Sword : MonoBehaviour
 
     void Update()
     {
-        // Keep sword locked to player position
         if (player != null)
         {
-            transform.position = player.position + offset;
+            float direction = Mathf.Sign(player.localScale.x);
+
+            transform.position = player.position + new Vector3(offset.x * direction, offset.y, 0f);
         }
     }
 
