@@ -7,60 +7,74 @@ public class MusicLayers : MonoBehaviour
     public AudioSource wind;
     public AudioSource danger;
 
+    public float fadeSpeed = 2f;
+
+    private AudioSource current;
+
     void Start()
     {
-        calm.Play();
-        tension.Play();
-        wind.Play();
-        danger.Play();
+        // Start with calm
+        current = calm;
+        current.volume = 1f;
+        current.Play();
 
-        SetAllVolumes(0f);
-        calm.volume = 1f;
+        Debug.Log("Now Playing: Calm");
     }
 
     public void SetCalm()
     {
-        FadeTo(calm);
+        SwitchTo(calm, "Calm");
     }
 
     public void SetTension()
     {
-        FadeTo(tension);
+        SwitchTo(tension, "Tension");
     }
 
     public void SetDanger()
     {
-        FadeTo(danger);
+        SwitchTo(danger, "Danger");
     }
 
-    void FadeTo(AudioSource target)
+    public void SetWind()
     {
-        AudioSource[] all = { calm, tension, wind, danger };
+        SwitchTo(wind, "Wind");
+    }
 
-        foreach (var a in all)
+    void SwitchTo(AudioSource newTrack, string name)
+    {
+        if (newTrack == current) return;
+
+        newTrack.volume = 0f;
+        newTrack.Play();
+
+        StartCoroutine(FadeOut(current));
+        StartCoroutine(FadeIn(newTrack));
+
+        current = newTrack;
+
+        Debug.Log("Now Playing: " + name);
+    }
+
+    System.Collections.IEnumerator FadeIn(AudioSource audio)
+    {
+        while (audio.volume < 0.99f)
         {
-            StartCoroutine(Fade(a, a == target ? 1f : 0f));
+            audio.volume = Mathf.Lerp(audio.volume, 1f, Time.deltaTime * fadeSpeed);
+            yield return null;
         }
+        audio.volume = 1f;
     }
 
-    System.Collections.IEnumerator Fade(AudioSource audio, float targetVolume)
+    System.Collections.IEnumerator FadeOut(AudioSource audio)
     {
-        float speed = 1f;
-
-        while (Mathf.Abs(audio.volume - targetVolume) > 0.01f)
+        while (audio.volume > 0.01f)
         {
-            audio.volume = Mathf.Lerp(audio.volume, targetVolume, Time.deltaTime * speed);
+            audio.volume = Mathf.Lerp(audio.volume, 0f, Time.deltaTime * fadeSpeed);
             yield return null;
         }
 
-        audio.volume = targetVolume;
-    }
-
-    void SetAllVolumes(float v)
-    {
-        calm.volume = v;
-        tension.volume = v;
-        wind.volume = v;
-        danger.volume = v;
+        audio.volume = 0f;
+        audio.Stop(); // stops it completely after fade
     }
 }
