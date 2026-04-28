@@ -13,10 +13,13 @@ public class MusicLayers : MonoBehaviour
 
     void Start()
     {
-        // Start with calm
         current = calm;
-        current.volume = 1f;
-        current.Play();
+
+        if (current != null)
+        {
+            current.volume = 1f;
+            current.Play();
+        }
 
         Debug.Log("Now Playing: Calm");
     }
@@ -48,7 +51,11 @@ public class MusicLayers : MonoBehaviour
         newTrack.volume = 0f;
         newTrack.Play();
 
-        StartCoroutine(FadeOut(current));
+        if (current != null)
+        {
+            StartCoroutine(FadeOut(current));
+        }
+
         StartCoroutine(FadeIn(newTrack));
 
         current = newTrack;
@@ -56,18 +63,40 @@ public class MusicLayers : MonoBehaviour
         Debug.Log("Now Playing: " + name);
     }
 
+    public void StopAllMusic()
+    {
+        StopAllCoroutines();
+
+        if (calm != null) calm.Stop();
+        if (tension != null) tension.Stop();
+        if (wind != null) wind.Stop();
+        if (danger != null) danger.Stop();
+
+        current = null;
+
+        Debug.Log("All music stopped (boss fight start)");
+    }
+
     System.Collections.IEnumerator FadeIn(AudioSource audio)
     {
+        if (audio == null) yield break;
+
+        audio.volume = 0f;
+        audio.Play();
+
         while (audio.volume < 0.99f)
         {
             audio.volume = Mathf.Lerp(audio.volume, 1f, Time.deltaTime * fadeSpeed);
             yield return null;
         }
+
         audio.volume = 1f;
     }
 
     System.Collections.IEnumerator FadeOut(AudioSource audio)
     {
+        if (audio == null) yield break;
+
         while (audio.volume > 0.01f)
         {
             audio.volume = Mathf.Lerp(audio.volume, 0f, Time.deltaTime * fadeSpeed);
@@ -75,6 +104,6 @@ public class MusicLayers : MonoBehaviour
         }
 
         audio.volume = 0f;
-        audio.Stop(); // stops it completely after fade
+        audio.Stop();
     }
 }

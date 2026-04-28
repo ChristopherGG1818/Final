@@ -16,12 +16,19 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
 
     private float currentSpeed;
 
+    [Header("Cycle Timing")]
+    public float chaseTime = 5f;
+    public float attackTime = 2f;
+
+    private bool isChasing = true;
+
     [Header("Attack")]
     public GameObject projectilePrefab;
     public Transform firePoint;
 
-    public float phase1FireRate = 2.5f;
-    public float phase2FireRate = 1f;
+    //faster attack rhythm
+    public float phase1FireRate = 0.3f;
+    public float phase2FireRate = 0.2f;
 
     private float attackTimer;
 
@@ -40,79 +47,120 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
         currentSpeed = phase1Speed;
 
+        rb.gravityScale = 0;
+        rb.freezeRotation = true;
+
         if (sr != null)
             originalColor = sr.color;
 
+        CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
+        if (cam != null)
+            cam.bossFight = true;
 
-            CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
-    if (cam != null)
-    {
-        cam.bossFight = true;
-    }
+        if (playerObj != null)
+        {
+            MusicLayers music = playerObj.GetComponentInChildren<MusicLayers>();
+            if (music != null)
+                music.StopAllMusic();
+        }
+
+        StartCoroutine(BossCycle());
     }
 
     void Update()
     {
         if (player == null) return;
 
-        HandlePhase();
-        FloatTowardPlayer();
-        HandleAttacks();
+        if (isChasing)
+            ChasePlayer();
     }
 
-    // PHASE TRANSITION (50%)
-    void HandlePhase()
+    IEnumerator BossCycle()
     {
-        if (!phase2 && currentHealth <= maxHealth / 2)
+        while (true)
         {
-            phase2 = true;
-            currentSpeed = phase2Speed;
+            isChasing = true;
+            yield return new WaitForSeconds(chaseTime);
+
+            isChasing = false;
+            rb.velocity = Vector2.zero;
+
+            yield return StartCoroutine(AttackBurst());
+
+            yield return new WaitForSeconds(attackTime);
         }
     }
 
-    //RADIANCE-STYLE FLOATING CHASE
-    void FloatTowardPlayer()
+    void ChasePlayer()
     {
-        Vector2 target = player.position;
-        Vector2 dir = (target - (Vector2)transform.position).normalized;
+        Vector2 dir = (player.position - transform.position).normalized;
 
-        rb.velocity = dir * currentSpeed;
+        rb.velocity = Vector2.Lerp(rb.velocity, dir * currentSpeed, 0.1f);
     }
 
-    //ATTACK SYSTEM
-    void HandleAttacks()
+    // MORE BULLETS + FASTER BURST
+    IEnumerator AttackBurst()
     {
-        attackTimer += Time.deltaTime;
+        int shots = phase2 ? 20 : 12; // increased from  phase 1
 
-        float rate = phase2 ? phase2FireRate : phase1FireRate;
-
-        if (attackTimer >= rate)
+        for (int i = 0; i < shots; i++)
         {
-            Shoot();
-            attackTimer = 0f;
+            ShootPattern();
+            yield return new WaitForSeconds(phase2FireRate);
         }
     }
 
-    void Shoot()
+    void ShootPattern()
     {
         if (projectilePrefab == null || firePoint == null) return;
 
+        if (Random.Range(0, 2) == 0)
+            ShootAtPlayer();
+        else
+            ShootRandom();
+    }
+
+    void ShootAtPlayer()
+    {
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
         Vector2 dir = (player.position - firePoint.position).normalized;
 
-        float speed = phase2 ? 8f : 4f;
+        float speed = phase2 ? 14f : 8f; // faster bullets
 
         proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
     }
 
-    // DAMAGE
+    void ShootRandom()
+    {
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        Vector2 dir = new Vector2(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f)
+        ).normalized;
+
+        float speed = phase2 ? 10f : 6f; //faster chaos shots
+
+        proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
+    }
+
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
         StartCoroutine(Flash());
+
+        if (!phase2 && currentHealth <= maxHealth / 2)
+        {
+            phase2 = true;
+            currentSpeed = phase2Speed;
+
+            if (sr != null)
+                sr.color = Color.yellow;
+        }
 
         if (currentHealth <= 0)
             Die();
