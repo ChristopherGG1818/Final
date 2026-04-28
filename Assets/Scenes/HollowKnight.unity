@@ -11758,6 +11758,10 @@ MonoBehaviour:
   target: {fileID: 1072006882}
   smoothSpeed: 5
   offset: {x: 0, y: 1, z: -10}
+  normalZoom: 5
+  bossZoom: 7
+  zoomSpeed: 2
+  bossFight: 0
 --- !u!1 &527967595
 GameObject:
   m_ObjectHideFlags: 0
@@ -46954,6 +46958,14 @@ PrefabInstance:
     - target: {fileID: 3897138007002032393, guid: 564792f111ea545d99eebcd02fe82306, type: 3}
       propertyPath: m_Name
       value: TheKnight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751176548233040828, guid: 564792f111ea545d99eebcd02fe82306, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6169590899148249806, guid: 564792f111ea545d99eebcd02fe82306, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9136081551226600197, guid: 564792f111ea545d99eebcd02fe82306, type: 3}
       propertyPath: m_LocalPosition.x
