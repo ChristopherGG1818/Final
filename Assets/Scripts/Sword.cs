@@ -11,8 +11,8 @@ public class Sword : MonoBehaviour
 
     private bool isAttacking;
     private bool hasHit;
-    private Transform player;
 
+    private Transform player;
     private SpriteRenderer sr;
 
     void Start()
@@ -22,7 +22,7 @@ public class Sword : MonoBehaviour
 
         sr = GetComponent<SpriteRenderer>();
         if (sr != null)
-            sr.enabled = false; // hide sword at start
+            sr.enabled = false;
     }
 
     void Update()
@@ -40,13 +40,12 @@ public class Sword : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Sword Attack Called!");
         if (isAttacking) return;
 
         isAttacking = true;
 
         if (sr != null)
-            sr.enabled = true; // show sword
+            sr.enabled = true;
 
         playerAnimator.SetTrigger("Attack");
 
@@ -56,17 +55,15 @@ public class Sword : MonoBehaviour
     IEnumerator Slash()
     {
         hasHit = false;
-
         hitbox.enabled = true;
 
         yield return new WaitForSeconds(activeTime);
 
         hitbox.enabled = false;
-
         isAttacking = false;
 
         if (sr != null)
-            sr.enabled = false; // hide sword
+            sr.enabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -77,9 +74,10 @@ public class Sword : MonoBehaviour
         {
             hasHit = true;
 
-            Debug.Log("Hit enemy!");
+            IDamageable target = other.GetComponent<IDamageable>();
 
-            other.GetComponent<bugOneBehavior>()?.TakeDamage(1);
+            if (target != null)
+                target.TakeDamage(1);
         }
     }
 }

@@ -42,7 +42,6 @@ public class playerBehavior : MonoBehaviour
     public float stepRate = 0.35f;
     private float stepTimer;
 
-    // ADDED ONLY THIS
     public Sword sword;
 
     void Start()
@@ -53,6 +52,12 @@ public class playerBehavior : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
+
+        //LOAD SAVED HEALTH FROM GAMEMANAGER
+        if (health != null && GameManager.instance != null)
+        {
+            health.CurrentHealth = GameManager.instance.health;
+        }
     }
 
     void Update()
@@ -71,11 +76,9 @@ public class playerBehavior : MonoBehaviour
         float moveInput = 0f;
         float currentSpeed = speed;
 
-        // Sprint
         if (Keyboard.current.shiftKey.isPressed && isGrounded)
             currentSpeed *= sprintMultiplier;
 
-        // Movement
         if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
             moveInput = -currentSpeed;
         if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
@@ -85,19 +88,16 @@ public class playerBehavior : MonoBehaviour
 
         HandleFootsteps(moveInput);
 
-        // Jump
         if (Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
-        // Better jump physics
         if (rb.velocity.y < 0)
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         else if (rb.velocity.y > 0 && !Keyboard.current.spaceKey.isPressed)
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
 
-        // Sprint particles ONLY
         if (Keyboard.current.shiftKey.isPressed)
         {
             if (!isAnimated)
@@ -119,14 +119,12 @@ public class playerBehavior : MonoBehaviour
             }
         }
 
-        //Sword attack (ADDED ONLY THIS)
         if (Keyboard.current.jKey.wasPressedThisFrame)
         {
             if (sword != null)
                 sword.Attack();
         }
 
-        // Animator
         if (anim != null)
         {
             bool isWalking = Mathf.Abs(moveInput) > 0;
@@ -200,6 +198,12 @@ public class playerBehavior : MonoBehaviour
         if (health != null)
         {
             health.TakeDamage(1);
+
+            //SAVE UPDATED HEALTH
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.health = health.CurrentHealth;
+            }
         }
     }
 

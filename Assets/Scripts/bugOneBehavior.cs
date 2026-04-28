@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class bugOneBehavior : MonoBehaviour
+public class bugOneBehavior : MonoBehaviour, IDamageable
 {
-    [Header("Movement Settings")]
+    [Header("Movement")]
     public float speed = 2f;
     public float minMoveTime = 1f;
     public float maxMoveTime = 3f;
@@ -14,109 +14,65 @@ public class bugOneBehavior : MonoBehaviour
     public float shootCooldown = 2f;
     private float shootTimer;
 
-    [Header("Movement Boundaries")]
-    public float minX;
-    public float maxX;
-    public float minY;
-    public float maxY;
+    [Header("Boundaries")]
+    public float minX, maxX, minY, maxY;
 
-    [Header("Player Detection")]
+    [Header("Player")]
     public Transform player;
-    public float followRange = 5f;
-    public float chaseSpeedMultiplier = 1.5f;
+    public bool playerInRange;
 
     [Header("Health")]
     public int health = 3;
 
-    //Hit Effects
-    [Header("Hit Effects")]
+    [Header("Knockback")]
     public float knockbackForce = 5f;
     public float knockbackDuration = 0.2f;
 
     private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer sr;
     private Color originalColor;
 
     private Vector2 moveDirection;
     private float moveTimer;
-    private bool playerInRange = false;
 
-    private void Start()
+    private bool isKnockedBack;
+
+    void Start()
     {
-        ChooseNewDirection();
-
-        
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-            originalColor = spriteRenderer.color;
+        if (sr != null)
+            originalColor = sr.color;
+
+        ChooseNewDirection();
+        shootTimer = shootCooldown;
     }
 
-    private void Update()
+    void Update()
     {
         if (playerInRange && player != null)
         {
-            FollowPlayerSmooth();
-            shootTimer -= Time.deltaTime;
-
-            if (shootTimer <= 0f)
-            {
-                ShootAtPlayer();
-                shootTimer = shootCooldown;
-            }
+            FollowPlayer();
+            HandleShooting();
         }
         else
         {
-            MoveBug();
-            HandleTimer();
+            if (!isKnockedBack)
+                Move();
         }
 
         ClampPosition();
     }
 
-    // Random wandering movement
-    void MoveBug()
+    // ---------------- MOVEMENT ----------------
+    void Move()
     {
         transform.Translate(moveDirection * speed * Time.deltaTime);
-        RotateTowardsDirection(moveDirection);
-    }
 
-    void HandleTimer()
-    {
         moveTimer -= Time.deltaTime;
         if (moveTimer <= 0f)
-        {
             ChooseNewDirection();
-        }
-    }
-
-    //UPDATED TAKE DAMAGE
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-
-        Debug.Log("Bug hit! Health: " + health);
-
-        //Flash red
-        if (spriteRenderer != null)
-        {
-            StopAllCoroutines();
-            StartCoroutine(FlashRed());
-        }
-
-        //Knockback
-        if (rb != null && player != null)
-        {
-            Vector2 direction = (transform.position - player.position).normalized;
-            rb.velocity = direction * knockbackForce;
-            StartCoroutine(StopKnockback());
-        }
-
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     void ChooseNewDirection()
@@ -125,90 +81,95 @@ public class bugOneBehavior : MonoBehaviour
         moveTimer = Random.Range(minMoveTime, maxMoveTime);
     }
 
-    void FollowPlayerSmooth()
+    void FollowPlayer()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        float step = speed * chaseSpeedMultiplier * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(transform.position, player.position, step);
+        Vector2 dir = (player.position - transform.position).normalized;
+        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
     }
 
-    void RotateTowardsDirection(Vector2 direction)
+    // ---------------- SHOOT ----------------
+    void HandleShooting()
     {
-        if (direction != Vector2.zero)
+        shootTimer -= Time.deltaTime;
+
+        if (shootTimer <= 0f)
         {
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            Shoot();
+            shootTimer = shootCooldown;
         }
+    }
+
+    void Shoot()
+    {
+        if (projectilePrefab == null || player == null) return;
+
+        Vector2 dir = (player.position - firePoint.position).normalized;
+
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        proj.GetComponent<bugProjectile>()?.SetDirection(dir);
+    }
+
+    // ---------------- DAMAGE ----------------
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log("Bug1 hit: " + health);
+
+        if (sr != null)
+        {
+            StopAllCoroutines();
+            StartCoroutine(FlashRed());
+        }
+
+        if (rb != null && player != null)
+        {
+            isKnockedBack = true;
+
+            Vector2 dir = (transform.position - player.position).normalized;
+            rb.velocity = dir * knockbackForce;
+
+            StartCoroutine(StopKnockback());
+        }
+
+        if (health <= 0)
+            Destroy(gameObject);
+    }
+
+    IEnumerator StopKnockback()
+    {
+        yield return new WaitForSeconds(knockbackDuration);
+
+        rb.velocity = Vector2.zero;
+        isKnockedBack = false;
+    }
+
+    IEnumerator FlashRed()
+    {
+        sr.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        sr.color = originalColor;
+    }
+
+    // ---------------- TRIGGERS ----------------
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+            playerInRange = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+            playerInRange = false;
     }
 
     void ClampPosition()
     {
         Vector3 pos = transform.position;
-        bool hitBoundary = false;
-
-        if (pos.x < minX || pos.x > maxX) hitBoundary = true;
-        if (pos.y < minY || pos.y > maxY) hitBoundary = true;
 
         pos.x = Mathf.Clamp(pos.x, minX, maxX);
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
         transform.position = pos;
-
-        if (hitBoundary) ChooseNewDirection();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        ChooseNewDirection();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-            playerInRange = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-            playerInRange = false;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, followRange);
-    }
-
-    void ShootAtPlayer()
-    {
-        if (projectilePrefab == null || player == null) return;
-
-        Vector2 direction = (player.position - firePoint.position).normalized;
-
-        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        bugProjectile projectileScript = proj.GetComponent<bugProjectile>();
-        projectileScript.SetDirection(direction);
-    }
-
-    //Flash red
-    IEnumerator FlashRed()
-    {
-        spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = originalColor;
-    }
-
-    // Stop knockback
-    IEnumerator StopKnockback()
-    {
-        yield return new WaitForSeconds(knockbackDuration);
-
-        if (rb != null)
-            rb.velocity = Vector2.zero;
     }
 }
