@@ -33684,11 +33684,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: maxX
-      value: 5.39
+      value: 68
       objectReference: {fileID: 0}
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: minX
-      value: -6.91
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: player
@@ -33840,11 +33840,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: maxX
-      value: 5.39
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: minX
-      value: -6.91
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: player
@@ -46665,11 +46665,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: maxX
-      value: 5.39
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: minX
-      value: -6.91
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4196095754936165242, guid: 64464fd05d19f4321bed61d47bf79e73, type: 3}
       propertyPath: player
@@ -46827,6 +46827,10 @@ PrefabInstance:
     - target: {fileID: 855365164669982381, guid: 9cf311c22b4a74ca0a70f4f4b961bb11, type: 3}
       propertyPath: m_Name
       value: bugdos_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 855365164669982381, guid: 9cf311c22b4a74ca0a70f4f4b961bb11, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1175676524954569184, guid: 9cf311c22b4a74ca0a70f4f4b961bb11, type: 3}
       propertyPath: m_LocalPosition.x
@@ -47148,6 +47152,10 @@ PrefabInstance:
     - target: {fileID: 159970402697350997, guid: d09e2a5275acc49d8b6374e1b5765480, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2799864727771081823, guid: d09e2a5275acc49d8b6374e1b5765480, type: 3}
+      propertyPath: m_text
+      value: Controls
       objectReference: {fileID: 0}
     - target: {fileID: 4085761561689436316, guid: d09e2a5275acc49d8b6374e1b5765480, type: 3}
       propertyPath: m_Name
