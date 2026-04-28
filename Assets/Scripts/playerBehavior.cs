@@ -4,6 +4,7 @@ using System.Collections;
 
 public class playerBehavior : MonoBehaviour
 {
+    //Bruh hes chopped.
     public float speed = 5f;
     public float sprintMultiplier = 2f;
     public float jumpForce = 10f;

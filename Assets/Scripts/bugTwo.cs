@@ -25,7 +25,7 @@ public class bugTwo : MonoBehaviour, IDamageable
         if (isDummy) return;
     }
 
-    // DAMAGE ONLY (no movement, no knockback, no behavior)
+    // damage only (no movement, no knockback, no behavior, just chud)
     public void TakeDamage(int damage)
     {
         health -= damage;

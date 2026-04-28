@@ -4,7 +4,7 @@ using System.Collections;
 public class FinalBoss2 : MonoBehaviour, IDamageable
 {
     [Header("Health")]
-    public int maxHealth = 20;
+    public int maxHealth = 30;
     private int currentHealth;
 
     [Header("Player")]
@@ -13,6 +13,7 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
     [Header("Movement")]
     public float phase1Speed = 1.5f;
     public float phase2Speed = 3.5f;
+    public float phase3Speed = 5f;
     private float currentSpeed;
 
     [Header("Cycle Timing")]
@@ -29,6 +30,7 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
     public float phase2FireRate = 0.2f;
 
     private bool phase2 = false;
+    private bool phase3 = false;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -39,6 +41,15 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
     public int spiralBullets = 12;
     public float spiralSpeed = 6f;
     public float spiralAngleStep = 25f;
+    private float spiralAngle = 0f;
+
+    // Pattern system
+    private int patternIndex = 0;
+
+    // Teleport settings
+    [Header("Teleport")]
+    public float teleportCooldown = 3f;
+    public float teleportRange = 6f;
 
     void Start()
     {
@@ -59,13 +70,11 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         if (cam != null)
             cam.bossFight = true;
 
-        // Stop music
+        // Stop player music
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-
         if (playerObj != null)
         {
             MusicLayers music = playerObj.GetComponentInChildren<MusicLayers>();
-
             if (music != null)
                 music.StopAllMusic();
         }
@@ -81,7 +90,7 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
             ChasePlayer();
     }
 
-    //MAIN LOOP
+    // MAIN LOOP
     IEnumerator BossCycle()
     {
         while (true)
@@ -94,44 +103,66 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
             isChasing = false;
             rb.velocity = Vector2.zero;
 
+            // teleport before attack in phase 3
+            if (phase3)
+                yield return StartCoroutine(Teleport());
+
+            yield return new WaitForSeconds(0.5f);
+
             yield return StartCoroutine(AttackBurst());
 
             yield return new WaitForSeconds(attackTime);
         }
     }
 
-    // CHASE MOVEMENT
+    // MOVEMENT
     void ChasePlayer()
     {
         Vector2 dir = (player.position - transform.position).normalized;
         rb.velocity = Vector2.Lerp(rb.velocity, dir * currentSpeed, 0.1f);
     }
 
-    //ATTACK BURST (structured pattern)
+    // ATTACK SYSTEM
     IEnumerator AttackBurst()
     {
-        int shots = phase2 ? 14 : 8;
+        int shots;
+        float fireRate;
+
+        if (phase3)
+        {
+            shots = 20;
+            fireRate = 0.1f;
+        }
+        else if (phase2)
+        {
+            shots = 14;
+            fireRate = phase2FireRate;
+        }
+        else
+        {
+            shots = 8;
+            fireRate = phase1FireRate;
+        }
 
         for (int i = 0; i < shots; i++)
         {
             ShootPattern();
-            yield return new WaitForSeconds(phase2FireRate);
+            yield return new WaitForSeconds(fireRate);
         }
     }
 
-    //ATTACK ROTATION SYSTEM (NO MORE PURE RANDOM CHAOS)
     void ShootPattern()
     {
         if (projectilePrefab == null || firePoint == null) return;
 
-        int pattern = Random.Range(0, 3);
-
-        if (pattern == 0)
+        if (patternIndex == 0)
             ShootAtPlayer();
-        else if (pattern == 1)
+        else if (patternIndex == 1)
             ShootRandom();
         else
             ShootSpiral();
+
+        patternIndex = (patternIndex + 1) % 3;
     }
 
     // DIRECT SHOT
@@ -140,8 +171,7 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
         Vector2 dir = (player.position - firePoint.position).normalized;
-
-        float speed = phase2 ? 14f : 8f;
+        float speed = phase3 ? 16f : (phase2 ? 14f : 8f);
 
         proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
     }
@@ -156,7 +186,7 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
             Random.Range(-1f, 1f)
         ).normalized;
 
-        float speed = phase2 ? 10f : 6f;
+        float speed = phase3 ? 12f : (phase2 ? 10f : 6f);
 
         proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
     }
@@ -164,21 +194,53 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
     // SPIRAL ATTACK
     void ShootSpiral()
     {
-        float angleOffset = Time.time * (phase2 ? 300f : 180f);
+        int bullets = phase3 ? spiralBullets + 6 : spiralBullets;
 
-        for (int i = 0; i < spiralBullets; i++)
+        for (int i = 0; i < bullets; i++)
         {
-            float angle = angleOffset + (i * spiralAngleStep);
+            float angle = spiralAngle + (i * spiralAngleStep);
             float rad = angle * Mathf.Deg2Rad;
 
             Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
 
             GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
-            float speed = phase2 ? 10f : spiralSpeed;
+            float speed = phase3 ? 12f : (phase2 ? 10f : spiralSpeed);
 
             proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
         }
+
+        spiralAngle += phase3 ? 25f : (phase2 ? 20f : 10f);
+    }
+
+    // TELEPORT SYSTEM
+    IEnumerator TeleportLoop()
+    {
+        while (phase3)
+        {
+            yield return new WaitForSeconds(teleportCooldown);
+            yield return StartCoroutine(Teleport());
+        }
+    }
+
+    IEnumerator Teleport()
+    {
+        rb.velocity = Vector2.zero;
+
+        if (sr != null)
+            sr.enabled = false;
+
+        yield return new WaitForSeconds(0.3f);
+
+        Vector2 randomOffset = Random.insideUnitCircle * teleportRange;
+        Vector2 newPos = (Vector2)player.position + randomOffset;
+
+        transform.position = newPos;
+
+        if (sr != null)
+            sr.enabled = true;
+
+        yield return new WaitForSeconds(0.2f);
     }
 
     // DAMAGE SYSTEM
@@ -188,7 +250,8 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
 
         StartCoroutine(Flash());
 
-        if (!phase2 && currentHealth <= maxHealth / 2)
+        // PHASE 2
+        if (!phase2 && currentHealth <= maxHealth * 0.5f)
         {
             phase2 = true;
             currentSpeed = phase2Speed;
@@ -197,12 +260,26 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
                 sr.color = Color.yellow;
         }
 
+        // PHASE 3
+        if (!phase3 && currentHealth <= maxHealth * 0.25f)
+        {
+            phase3 = true;
+            currentSpeed = phase3Speed;
+
+            if (sr != null)
+                sr.color = Color.magenta;
+
+            StartCoroutine(TeleportLoop());
+        }
+
         if (currentHealth <= 0)
             Die();
     }
 
     IEnumerator Flash()
     {
+        if (sr == null) yield break;
+
         sr.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         sr.color = originalColor;
