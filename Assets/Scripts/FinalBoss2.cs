@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class FinalBoss2 : MonoBehaviour, IDamageable
 {
@@ -36,20 +37,21 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
     private SpriteRenderer sr;
     private Color originalColor;
 
-    // Spiral settings
     [Header("Spiral Attack")]
     public int spiralBullets = 12;
     public float spiralSpeed = 6f;
     public float spiralAngleStep = 25f;
     private float spiralAngle = 0f;
 
-    // Pattern system
     private int patternIndex = 0;
 
-    // Teleport settings
     [Header("Teleport")]
     public float teleportCooldown = 3f;
     public float teleportRange = 6f;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip phaseChangeSound;
 
     void Start()
     {
@@ -65,12 +67,10 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         if (sr != null)
             originalColor = sr.color;
 
-        // Camera boss mode
         CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
         if (cam != null)
             cam.bossFight = true;
 
-        // Stop player music
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -90,20 +90,16 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
             ChasePlayer();
     }
 
-    // MAIN LOOP
     IEnumerator BossCycle()
     {
         while (true)
         {
-            // CHASE
             isChasing = true;
             yield return new WaitForSeconds(chaseTime);
 
-            // ATTACK
             isChasing = false;
             rb.velocity = Vector2.zero;
 
-            // teleport before attack in phase 3
             if (phase3)
                 yield return StartCoroutine(Teleport());
 
@@ -115,14 +111,12 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         }
     }
 
-    // MOVEMENT
     void ChasePlayer()
     {
         Vector2 dir = (player.position - transform.position).normalized;
         rb.velocity = Vector2.Lerp(rb.velocity, dir * currentSpeed, 0.1f);
     }
 
-    // ATTACK SYSTEM
     IEnumerator AttackBurst()
     {
         int shots;
@@ -165,7 +159,6 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         patternIndex = (patternIndex + 1) % 3;
     }
 
-    // DIRECT SHOT
     void ShootAtPlayer()
     {
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
@@ -176,22 +169,17 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
     }
 
-    // RANDOM SHOT
     void ShootRandom()
     {
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
-        Vector2 dir = new Vector2(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f)
-        ).normalized;
+        Vector2 dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 
         float speed = phase3 ? 12f : (phase2 ? 10f : 6f);
 
         proj.GetComponent<Rigidbody2D>().velocity = dir * speed;
     }
 
-    // SPIRAL ATTACK
     void ShootSpiral()
     {
         int bullets = phase3 ? spiralBullets + 6 : spiralBullets;
@@ -213,7 +201,6 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         spiralAngle += phase3 ? 25f : (phase2 ? 20f : 10f);
     }
 
-    // TELEPORT SYSTEM
     IEnumerator TeleportLoop()
     {
         while (phase3)
@@ -233,9 +220,7 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(0.3f);
 
         Vector2 randomOffset = Random.insideUnitCircle * teleportRange;
-        Vector2 newPos = (Vector2)player.position + randomOffset;
-
-        transform.position = newPos;
+        transform.position = (Vector2)player.position + randomOffset;
 
         if (sr != null)
             sr.enabled = true;
@@ -243,12 +228,13 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(0.2f);
     }
 
-    // DAMAGE SYSTEM
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
         StartCoroutine(Flash());
+
+        CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
 
         // PHASE 2
         if (!phase2 && currentHealth <= maxHealth * 0.5f)
@@ -258,6 +244,11 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
 
             if (sr != null)
                 sr.color = Color.yellow;
+
+            if (cam != null)
+                cam.Shake(0.3f);
+
+            PlayPhaseSound();
         }
 
         // PHASE 3
@@ -269,11 +260,22 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
             if (sr != null)
                 sr.color = Color.magenta;
 
+            if (cam != null)
+                cam.Shake(0.5f);
+
             StartCoroutine(TeleportLoop());
+
+            PlayPhaseSound();
         }
 
         if (currentHealth <= 0)
             Die();
+    }
+
+    void PlayPhaseSound()
+    {
+        if (audioSource != null && phaseChangeSound != null)
+            audioSource.PlayOneShot(phaseChangeSound);
     }
 
     IEnumerator Flash()
@@ -287,7 +289,17 @@ public class FinalBoss2 : MonoBehaviour, IDamageable
 
     void Die()
     {
-        Destroy(gameObject);
         Debug.Log("Final Boss Defeated!");
+
+        StopAllCoroutines();
+        rb.velocity = Vector2.zero;
+
+        StartCoroutine(LoadWinScene());
+    }
+
+    IEnumerator LoadWinScene()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Winner");
     }
 }

@@ -705,12 +705,20 @@ MonoBehaviour:
   player: {fileID: 234105360}
   phase1Speed: 1.5
   phase2Speed: 3.5
+  phase3Speed: 5
   chaseTime: 5
   attackTime: 2
   projectilePrefab: {fileID: 7063229792973173569, guid: 5cd2f9d2417854eeb90201f636478c64, type: 3}
   firePoint: {fileID: 4925854}
   phase1FireRate: 2.5
   phase2FireRate: 1
+  spiralBullets: 12
+  spiralSpeed: 6
+  spiralAngleStep: 25
+  teleportCooldown: 3
+  teleportRange: 6
+  audioSource: {fileID: 784017717}
+  phaseChangeSound: {fileID: 8300000, guid: 6bdbb48ed666a4a068ac5f08a2e76019, type: 3}
 --- !u!60 &784017715
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2509,6 +2517,8 @@ MonoBehaviour:
   bossZoom: 10
   zoomSpeed: 2
   bossFight: 0
+  shakeIntensity: 0
+  shakeDecay: 2
 --- !u!4 &1101616983 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8175944813580598249, guid: 2cf11e167c99444b1b1cb9df3c388936, type: 3}
